@@ -3,23 +3,13 @@ import {useState} from "react"
 
 const Head = ({text})=> <h1>{text}</h1>
 const Subtitle = ({text})=> <h3>{text}</h3>
-const Item =({text, value})=> <p>{text}: {value}</p>
-const Statistics =({valeGood, valueRegular,valueBad, valueTotal, valueAverage, valuePositive})=>{
-  return(
-    <>
-    <Item text="Good" value={valeGood}> </Item>
-     <Item text="Regular" value={valueRegular}> </Item>
-     <Item text="Bad" value={valueBad}> </Item>
-     <Item text="Total" value={valueTotal}> </Item>
-     <Item text="Average" value={isNaN(valueAverage)?0:valueAverage.toFixed(4)}> </Item>
-     <Item text="Positive" value={isNaN(valuePositive)?0:`${valuePositive.toFixed(4)} %`}> </Item>
-    </>
-  )
+const Statistics =({text, value})=> <p >{text}: {value} </p>
+    
   
-}
 
 
-const Option = ({handleClick, text})=> <button onClick={handleClick}>{text}</button>
+
+const Button = ({handleClick, text})=> <button onClick={handleClick}>{text}</button>
 let positives =0;
 
 const App=()=> {
@@ -35,7 +25,6 @@ const App=()=> {
     setTotal(total +1)
     setaverage((average+1))
     positives +=1;
-    console.log(positives)
   }
   const upRegular=()=>{
     setRegular(regular +1)
@@ -47,17 +36,24 @@ const App=()=> {
     setTotal(total +1)
     setaverage((average-1))
   }
-  const aver = (average/total);
-  const positiveAver = (positives/total)*100
+  const aver = (average/total).toFixed(4);
+  const positiveAver = ((positives/total)*100).toFixed(4)
   return (
     <div className="App">
      <Head text="Give feedback"></Head>
-     <Option handleClick={()=> upGood()} text="Good"></Option>
-     <Option handleClick={()=> upRegular()} text="Regular"></Option>
-     <Option handleClick={()=> upBad()} text="Bad"></Option>
+     <Button handleClick={()=> upGood()} text="Good"></Button>
+     <Button handleClick={()=> upRegular()} text="Regular"></Button>
+     <Button handleClick={()=> upBad()} text="Bad"></Button>
      <Subtitle text="Statics"></Subtitle>
-     {total>0?<Statistics valueNormal={good} valueRegular={regular} valueBad={bad} valueTotal={total} valueAverage={aver} valuePositive={positiveAver}></Statistics>:<p>No feedback given</p>}
-     
+     {total>0?<>
+      <Statistics text="Good" value={good}></Statistics>
+      <Statistics text="Regular" value={regular}></Statistics>
+      <Statistics text="Bad" value={bad}></Statistics>
+      <Statistics text="Total" value={total}></Statistics>
+      <Statistics text="Average" value={isNaN(aver)?0:aver}></Statistics>
+      <Statistics text="Positives" value={isNaN(positiveAver)?0:positiveAver}></Statistics>
+    </>:<p>No feedback given.</p>}
+    
     </div>
   );
 }
