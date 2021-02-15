@@ -4,7 +4,19 @@ import {useState} from "react"
 const Head = ({text})=> <h1>{text}</h1>
 const Subtitle = ({text})=> <h3>{text}</h3>
 const Item =({text, value})=> <p>{text}: {value}</p>
- 
+const Statistics =({valeGood, valueRegular,valueBad, valueTotal, valueAverage, valuePositive})=>{
+  return(
+    <>
+    <Item text="Good" value={valeGood}> </Item>
+     <Item text="Regular" value={valueRegular}> </Item>
+     <Item text="Bad" value={valueBad}> </Item>
+     <Item text="Total" value={valueTotal}> </Item>
+     <Item text="Average" value={isNaN(valueAverage)?0:valueAverage.toFixed(4)}> </Item>
+     <Item text="Positive" value={isNaN(valuePositive)?0:`${valuePositive.toFixed(4)} %`}> </Item>
+    </>
+  )
+  
+}
 
 
 const Option = ({handleClick, text})=> <button onClick={handleClick}>{text}</button>
@@ -44,12 +56,8 @@ const App=()=> {
      <Option handleClick={()=> upRegular()} text="Regular"></Option>
      <Option handleClick={()=> upBad()} text="Bad"></Option>
      <Subtitle text="Statics"></Subtitle>
-     <Item text="Good" value={good}> </Item>
-     <Item text="Regular" value={regular}> </Item>
-     <Item text="Bad" value={bad}> </Item>
-     <Item text="Total" value={total}> </Item>
-     <Item text="Average" value={isNaN(aver)?0:aver.toFixed(4)}> </Item>
-     <Item text="Positive" value={isNaN(positiveAver)?0:`${positiveAver.toFixed(4)} %`}> </Item>
+     <Statistics valueNormal={good} valueRegular={regular} valueBad={bad} valueTotal={total} valueAverage={aver} valuePositive={positiveAver}></Statistics>
+     
     </div>
   );
 }
