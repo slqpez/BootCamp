@@ -56,7 +56,7 @@ const App=()=> {
      <Option handleClick={()=> upRegular()} text="Regular"></Option>
      <Option handleClick={()=> upBad()} text="Bad"></Option>
      <Subtitle text="Statics"></Subtitle>
-     <Statistics valueNormal={good} valueRegular={regular} valueBad={bad} valueTotal={total} valueAverage={aver} valuePositive={positiveAver}></Statistics>
+     {total>0?<Statistics valueNormal={good} valueRegular={regular} valueBad={bad} valueTotal={total} valueAverage={aver} valuePositive={positiveAver}></Statistics>:<p>No feedback given</p>}
      
     </div>
   );
