@@ -3,9 +3,19 @@ import {useState} from "react"
 
 const Head = ({text})=> <h1>{text}</h1>
 const Subtitle = ({text})=> <h3>{text}</h3>
-const Statistics =({text, value})=> <p >{text}: {value} </p>
-    
+const Statistics =({text, value})=> {return(
+  <>
   
+  <tr>
+      <th>{text}:</th>
+      <th>{value}</th> 
+    </tr>
+  
+   
+   </>
+)
+    
+}
 
 
 
@@ -46,12 +56,16 @@ const App=()=> {
      <Button handleClick={()=> upBad()} text="Bad"></Button>
      <Subtitle text="Statics"></Subtitle>
      {total>0?<>
-      <Statistics text="Good" value={good}></Statistics>
-      <Statistics text="Regular" value={regular}></Statistics>
-      <Statistics text="Bad" value={bad}></Statistics>
-      <Statistics text="Total" value={total}></Statistics>
-      <Statistics text="Average" value={isNaN(aver)?0:aver}></Statistics>
-      <Statistics text="Positives" value={isNaN(positiveAver)?0:positiveAver}></Statistics>
+      <table>
+        <tbody>
+          <Statistics text="Good" value={good}></Statistics>
+          <Statistics text="Regular" value={regular}></Statistics>
+          <Statistics text="Bad" value={bad}></Statistics>
+          <Statistics text="Total" value={total}></Statistics>
+          <Statistics text="Average" value={isNaN(aver)?0:aver}></Statistics>
+          <Statistics text="Positives" value={isNaN(positiveAver)?0:positiveAver}></Statistics>
+        </tbody>
+      </table>
     </>:<p>No feedback given.</p>}
     
     </div>
