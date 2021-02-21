@@ -3,19 +3,24 @@ import { React, useState } from "react";
 const Part = ({ text, exercises }) => {
   return (
     <>
-      <p>{text}: <strong>{exercises}</strong></p> 
+      <p>
+        {text}: <strong>{exercises}</strong>
+      </p>
     </>
   );
 };
+const Total = ({exercises}) => <p>{exercises.reduce((a,b)=>a+b)}</p>;
+
 const Header = ({ text }) => <h1>{text}</h1>;
-const Content = ({parts}) => {
-  return(
+
+const Content = ({ parts }) => {
+  return (
     <>
-      {parts.map(part=> <Part key={part.id} text={part.name} exercises={part.exercises}></Part>)}
-
+      {parts.map((part) => (
+        <Part key={part.id} text={part.name} exercises={part.exercises}></Part>
+      ))}
     </>
-
-  )
+  );
 };
 
 const Course = ({ course }) => {
@@ -48,10 +53,16 @@ const App = () => {
       },
     ],
   };
+  const exercisesArray = course.parts.map(part=> part.exercises)
+
   return (
     <div className="App">
       <Course course={course}></Course>
       <Content parts={course.parts}></Content>
+      <Total exercises={exercisesArray}></Total>
+      
+      
+     
     </div>
   );
 };
