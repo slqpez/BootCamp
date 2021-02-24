@@ -13,10 +13,14 @@ const App = () => {
      const personObject={
        name:newName,
        id:persons.length +1
-
-
      }
-     setPersons([...persons, personObject])
+     const nameExists = persons.find(person=> person.name === newName)
+     if(nameExists){
+       alert(`${newName} already exist.`)
+     }else{
+      setPersons([...persons, personObject])
+     }
+     
      setNewName('')
      
    }
