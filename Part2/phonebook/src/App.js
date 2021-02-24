@@ -3,12 +3,18 @@ import reactDom from "react-dom";
 import "./App.css";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas", id: 1, phone:"123456"}]);
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', phone: '040-123456', id:1 },
+    { name: 'Ada Lovelace', phone: '39-44-5323523', id:2 },
+    { name: 'Dan Abramov', phone: '12-43-234345', id:3 },
+    { name: 'Mary Poppendieck', phone: '39-23-6423122' ,id:4}
+  ])
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
+  const [showAll, setShowAll] = useState(true);
+  const [filterValue, setFilterValue] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("clicked");
     const personObject = {
       name: newName,
       id: persons.length + 1,
@@ -37,14 +43,23 @@ const App = () => {
   }
   function handNameInput(e) {
     setNewName(e.target.value);
+
   }
   function handlePhoneInput(e) {
     setNewPhone(e.target.value);
   }
+  function handleFilterInput(e){
+    setFilterValue(e.target.value)
+  }
+
+  const filtPersons =persons.filter(person=>person.name.includes(filterValue))
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        Filter shown with <input onChange={handleFilterInput} value={filterValue}></input>
+      </div>
       <form>
         <div>
           Name: <input onChange={handNameInput} value={newName} />
@@ -59,8 +74,8 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map((person) => (
-        <p key={person.id}>{person.name} --- {person.phone}</p>
+        { filtPersons.map((person) => (
+        <p key={person.id}>{person.name}  {person.phone}</p>
       ))}
     </div>
   );
