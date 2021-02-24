@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import reactDom from "react-dom";
+import Input from "./components/Input"
+import Form from "./components/Form"
+import Persons from "./components/Persons"
 import "./App.css";
 
 const App = () => {
@@ -11,7 +13,6 @@ const App = () => {
   ])
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
-  const [showAll, setShowAll] = useState(true);
   const [filterValue, setFilterValue] = useState("");
   function handleSubmit(e) {
     e.preventDefault();
@@ -58,25 +59,12 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <div>
-        Filter shown with <input onChange={handleFilterInput} value={filterValue}></input>
+       <Input labelText="Filter Show with" handleFunction={handleFilterInput} value={filterValue}></Input>
       </div>
-      <form>
-        <div>
-          Name: <input onChange={handNameInput} value={newName} />
-        </div>
-        <div>
-          Phone: <input onChange={handlePhoneInput} value={newPhone} />
-        </div>
-        <div>
-          <button type="submit" onClick={handleSubmit}>
-            add
-          </button>
-        </div>
-      </form>
+      <Form handNameInput={handNameInput} handlePhoneInput={handlePhoneInput} handleSubmit={handleSubmit} valueName={newName} valuePhone={newPhone}></Form>
+      
       <h2>Numbers</h2>
-        { filtPersons.map((person) => (
-        <p key={person.id}>{person.name}  {person.phone}</p>
-      ))}
+       <Persons persons={filtPersons}></Persons>
     </div>
   );
 };
