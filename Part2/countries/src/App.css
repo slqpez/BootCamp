@@ -6,3 +6,21 @@ body{
 img{
   margin-top: 2.5em;
 }
+
+.btn-show{
+  background:chartreuse;
+  display:inline-block;
+  border: none;
+  cursor:pointer;
+  padding:.5em;
+}
+.country{
+  display: inline;
+  margin: 1em;
+  font-weight: bold;
+
+}
+
+.country-div{
+  margin: 1em;
+}
