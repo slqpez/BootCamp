@@ -4,6 +4,7 @@ import Form from "./components/Form"
 import Persons from "./components/Persons"
 import axios from "axios"
 import "./App.css";
+import personService from "./services/names.service"
 
 const App = () => {
   const [persons, setPersons] = useState([])
@@ -12,11 +13,12 @@ const App = () => {
   const [filterValue, setFilterValue] = useState("");
 
   useEffect(()=>{
-    axios.get("http://localhost:3001/persons")
-    .then(response =>{
-      setPersons(response.data)
+    personService.getAllNames().then(res=>{
+      setPersons(res.data)
+      setNewName("")
     })
-  },[]) 
+    },[])
+ 
  
 
 
@@ -43,6 +45,10 @@ const App = () => {
     }else{
       alert("Por favor llene todos los campos.")
     }
+    personService.addName(personObject).then(res=>{
+      setPersons([...persons, res.data])
+      setNewName("")
+    })
     
 
     setNewName("");
