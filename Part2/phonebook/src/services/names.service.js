@@ -10,5 +10,7 @@ const addName =(person)=>{
     return axios.post(BASE_URL,person )
 }
 
-
-export default {getAllNames, addName}
+const deleteName =(id)=>{
+    return axios.delete(`${BASE_URL}/${id}`)
+}
+export default {getAllNames, addName, deleteName}

@@ -2,7 +2,6 @@ import React, { useState, useEffect} from "react";
 import Input from "./components/Input"
 import Form from "./components/Form"
 import Persons from "./components/Persons"
-import axios from "axios"
 import "./App.css";
 import personService from "./services/names.service"
 
@@ -11,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filterValue, setFilterValue] = useState("");
+  const [idSelected, setIdSelected] = useState(null);
 
   useEffect(()=>{
     personService.getAllNames().then(res=>{
@@ -19,16 +19,16 @@ const App = () => {
     })
     },[])
  
- 
 
 
   function handleSubmit(e) {
     e.preventDefault();
     const personObject = {
       name: newName,
-      id: persons.length + 1,
+      id: Math.max(persons.map(person=>person.id))+1,
       number:newPhone
     };
+    
     const nameExists = persons.find((person) => person.name === newName);
     if(newPhone!== '' && newName!== ''){
       if (nameExists) {
@@ -36,6 +36,10 @@ const App = () => {
       } else {
         if(!isNaN(newPhone)){
           setPersons([...persons, personObject]);
+          personService.addName(personObject).then(res=>{
+            setPersons([...persons, res.data])
+            setNewName("")
+          })
         }else{
           alert("Por favor ingrese un número válido.")
         }
@@ -45,10 +49,7 @@ const App = () => {
     }else{
       alert("Por favor llene todos los campos.")
     }
-    personService.addName(personObject).then(res=>{
-      setPersons([...persons, res.data])
-      setNewName("")
-    })
+   
     
 
     setNewName("");
@@ -64,7 +65,12 @@ const App = () => {
   function handleFilterInput(e){
     setFilterValue(e.target.value)
   }
-
+  function handleDelete(e){
+    const id =e.target.parentNode.getAttribute("data-id")
+    personService.deleteName(Number(id));
+    const newPersons = (persons.filter(person=>person.id !== Number(id)))
+    setPersons(newPersons)
+  }
   const filtPersons =persons.filter(person=>person.name.includes(filterValue))
 
   return (
@@ -76,7 +82,7 @@ const App = () => {
       <Form handNameInput={handNameInput} handlePhoneInput={handlePhoneInput} handleSubmit={handleSubmit} valueName={newName} valuePhone={newPhone}></Form>
       
       <h2>Numbers</h2>
-       <Persons persons={filtPersons}></Persons>
+       <Persons persons={filtPersons} handleDelete={handleDelete}></Persons>
     </div>
   );
 };
