@@ -18,18 +18,24 @@ const App = () => {
     });
   }, []);
 
+ 
+
   function handleSubmit(e) {
+    const maxID=(persons.map((person) => person.id))
     e.preventDefault();
     const personObject = {
       name: newName,
-      id: Math.max(persons.map((person) => person.id)) + 1,
+      id: Math.max(...maxID) + 1,
       number: newPhone,
     };
-
     const nameExists = persons.find((person) => person.name === newName);
     if (newPhone !== "" && newName !== "") {
-      if (nameExists) {
-        alert(`${newName} already exist.`);
+      if (nameExists!== undefined) {
+        const toUpdate ={...nameExists, number: newPhone}
+        console.log(toUpdate)
+         personService.updateName(Number(nameExists.id), toUpdate).then(()=>{
+          setPersons(persons.map(person=>person.name===toUpdate.name?toUpdate:person))
+        })  
       } else {
         if (!isNaN(newPhone)) {
           setPersons([...persons, personObject]);
@@ -69,10 +75,10 @@ const App = () => {
     
   }
 
-  const filtPersons = persons.filter((person) =>
+   const filtPersons = persons.filter((person) =>
     person.name.includes(filterValue)
   );
-  
+   
 
   return (
     <div>

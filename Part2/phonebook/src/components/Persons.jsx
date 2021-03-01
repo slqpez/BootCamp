@@ -5,7 +5,8 @@ const  Persons =  ({ persons, handleDelete }) => {
   return(
     persons.map(person=>{
       return(
-        <div data-id={person.id} data-name={person.name} style={{ marginBottom: "1em" }} key={person.id}>
+        
+        <div data-id={Number(person.id)} style={{ marginBottom: "1em" }} key={person.id}>
         <p style={{ display: "inline", marginRight: "1em" }}>
           <strong>{person.name}</strong> {person.number}
         </p>
