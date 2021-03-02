@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Input from "./components/Input";
 import Form from "./components/Form";
 import Persons from "./components/Persons";
+import Message from "./components/Message"
 import "./App.css";
 import personService from "./services/names.service";
 
@@ -10,6 +11,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newPhone, setNewPhone] = useState("");
   const [filterValue, setFilterValue] = useState("");
+  const [showMessage,setShowMessage]= useState(null)
+  const [typeMessage,setTypeMessage]= useState("success")
 
   useEffect(() => {
     personService.getAllNames().then((res) => {
@@ -35,6 +38,9 @@ const App = () => {
         console.log(toUpdate)
          personService.updateName(Number(nameExists.id), toUpdate).then(()=>{
           setPersons(persons.map(person=>person.name===toUpdate.name?toUpdate:person))
+          setShowMessage("Número editado correctamente")
+          setTypeMessage("success")
+
         })  
       } else {
         if (!isNaN(newPhone)) {
@@ -42,11 +48,18 @@ const App = () => {
           personService.addName(personObject).then((res) => {
             setPersons([...persons, res.data]);
             setNewName("");
+            setShowMessage("Número agregado correctamente")
+            setTypeMessage("success")
+
+           
           });
         } else {
           alert("Por favor ingrese un número válido.");
         }
       }
+      setTimeout(()=>{
+        setShowMessage(null)
+      },2000)
     } else {
       alert("Por favor llene todos los campos.");
     }
@@ -71,6 +84,14 @@ const App = () => {
       personService.deleteName(Number(id));
     const newPersons = persons.filter((person) => person.id !== Number(id));
     setPersons(newPersons);
+    setShowMessage("Número eliminado correctamente")
+    setTypeMessage("error")
+
+    setTimeout(()=>{
+      setShowMessage(null)
+
+    },2000)
+
     }
     
   }
@@ -97,7 +118,7 @@ const App = () => {
         valueName={newName}
         valuePhone={newPhone}
       ></Form>
-
+      <Message message={showMessage} type={typeMessage}></Message>
       <h2>Numbers</h2>
       <Persons persons={filtPersons} handleDelete={handleDelete}></Persons>
     </div>

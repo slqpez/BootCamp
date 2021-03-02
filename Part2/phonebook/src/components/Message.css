@@ -1,0 +1,20 @@
+.success{
+    color:green;
+    font-weight: bold;
+    background-color:rgb(179, 226, 199);
+    width:50%;
+    text-align: center;
+    padding: 5px;
+    border:2px solid green;
+}
+
+.error{
+    color:red;
+    font-weight: bold;
+    background-color:rgb(233, 203, 203);
+    width:50%;
+    text-align: center;
+    padding: 5px;
+    border:2px solid red;
+
+}
