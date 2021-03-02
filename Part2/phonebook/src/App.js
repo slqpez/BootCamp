@@ -35,13 +35,15 @@ const App = () => {
     if (newPhone !== "" && newName !== "") {
       if (nameExists!== undefined) {
         const toUpdate ={...nameExists, number: newPhone}
-        console.log(toUpdate)
          personService.updateName(Number(nameExists.id), toUpdate).then(()=>{
           setPersons(persons.map(person=>person.name===toUpdate.name?toUpdate:person))
           setShowMessage("Número editado correctamente")
           setTypeMessage("success")
 
-        })  
+        }).catch(()=>{
+          setShowMessage("El número que trató de editar ya no existe, recargue la página.")
+          setTypeMessage("error")
+        }); 
       } else {
         if (!isNaN(newPhone)) {
           setPersons([...persons, personObject]);
@@ -81,7 +83,7 @@ const App = () => {
     const name = e.target.parentNode.getAttribute("data-name");
     const confirm = window.confirm(`Do you wanna delete ${name}?`)
     if(confirm){
-      personService.deleteName(Number(id));
+      personService.deleteName(Number(id))
     const newPersons = persons.filter((person) => person.id !== Number(id));
     setPersons(newPersons);
     setShowMessage("Número eliminado correctamente")
